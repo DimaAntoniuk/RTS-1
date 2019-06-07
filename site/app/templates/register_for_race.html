@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-login" action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.first_name(size = 30, placeholder="first name") }}
+        {% for error in form.first_name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.last_name(size=30, placeholder="last name") }}
+        {% for error in form.last_name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.age(size = 2, placeholder="age") }}
+        {% for error in form.age.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+
+    <p>
+        {{ form.submit(class="form-submit") }}<br>
+    </p>
+</form>
+{% endblock %}

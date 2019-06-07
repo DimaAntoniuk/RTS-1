@@ -1,11 +1,12 @@
 from app import app, photos, db
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, SubmitField, PasswordField, FloatField, DateTimeField, TextAreaField, SelectField, HiddenField
-from wtforms.validators import DataRequired, InputRequired, ValidationError
+from wtforms import StringField, SubmitField, PasswordField, FloatField, DateTimeField, TextAreaField, SelectField, HiddenField, IntegerField
+from wtforms.validators import DataRequired, InputRequired, ValidationError, EqualTo, Email
 from bson.objectid import ObjectId
 
 races_col = db.races
+users_col = db.users
 runners_col = db.runners
 checkpoints_col = db.checkpoints
 
@@ -79,7 +80,35 @@ class EditRaceForm(FlaskForm):
         self.date_and_time_of_race.data = race['date_and_time_of_race']
         self.description.data = race['description']
 
-class LoginForm(FlaskForm):
+class SignInForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Sign In')
+
+
+class RegisterForRace(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    age = StringField('Age', validators=[DataRequired()])
+    submit = SubmitField('Register for race')
+
+
+class SignUpForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    age = IntegerField('Age', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    repeat_password = PasswordField('Repeat password', validators=[DataRequired(), EqualTo('password')])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        list = users_col.distinct(key='username')
+        if username.data in list:
+            raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        list = users_col.distinct(key='email')
+        if email.data in list:
+            raise ValidationError('Please use a different email.')

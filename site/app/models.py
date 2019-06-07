@@ -1,28 +1,37 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import login
+from app import login, db
+from bson.objectid import ObjectId
+
+users_col = db.users
 
 
 class User(UserMixin):
-    id
-    username = ''
-    password = ''
-    role = ''
+    def __init__(self, username=None, first_name=None, last_name=None, age=None, email=None, dict=None):
+        if dict is None:
+            self.username = username
+            self.first_name = first_name
+            self.last_name = last_name
+            self.age = age
+            self.email = email
+        else:
+            self.username = dict['username']
+            self.first_name = dict['first_name']
+            self.last_name = dict['last_name']
+            self.age = dict['age']
+            self.email = dict['email']
+            self.id = dict['_id']
+            self.password_hash = dict['password_hash']
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 @login.user_loader
 def load_user(id):
-    user = User()
-    if id == 1:
-        user.username = 'admin'
-        user.password = 'admin'
-        user.role = 'admin'
-        user.id = 1
-
-    if id == 2:
-        user.username = 'organizer'
-        user.password = 'organizer'
-        user.role = 'organizer'
-        user.id = 2
+    user = User(dict = users_col.find({"_id":ObjectId(id)})[0])
     return user
 
 class Event:
@@ -32,7 +41,7 @@ class Event:
         self.time = time
 
 class Race:
-    def __init__(self, name, logo, admin, laps_number, distance, date_and_time_of_race, description, checkpoints):
+    def __init__(self, name, logo, admin, laps_number, distance, date_and_time_of_race, description, checkpoints, runners):
         self.name = name
         self.logo = logo
         self.admin = admin
@@ -41,12 +50,13 @@ class Race:
         self.date_and_time_of_race = date_and_time_of_race
         self.description = description
         self.checkpoints = checkpoints
+        self.runners = runners
 
 class Runner:
-    def __init__(self, first_name, last_name, id):
+    def __init__(self, first_name, last_name, age):
         self.first_name = first_name
         self.last_name = last_name
-        self.id = id
+        self.age = age
 
 class Checkpoint:
     def __init__(self, name, operator, race):

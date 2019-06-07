@@ -12,33 +12,23 @@
   <button type="submit"><strong>Back to race</strong></button>
 </form>
 {% if checkpoints[0] %}
-  <style type="text/css">
-  	th {
-  	color: blue;
-  	font-size: 13px;
-  	font-family:  "Trebuchet MS", Helvetica, sans-serif;
-    border: 1px solid black;
-    background-color: white;
-  	}
-    .selected{
-    	background-color:green;
-    	color #fff;
-    	font-weight: bold
-  	}
-  </style>
-  <table id="table" border="1" cellspacing="1" cellpadding="10" align="center">
+  <table id="table">
+    <thead class="table100-head">
     <tr>
-      <th style="background-color:#ececec; color: #333366;">Name</th>
-      <th style="background-color:#ececec; color: #333366;">Operator</th>
-      <th style="background-color:#ececec; color: #333366;">Edit</th>
+      <th class="tbh">Name</th>
+      <th class="tbh">Operator</th>
+      <th class="tbh">Edit</th>
     </tr>
+    </thead>
+    <tbody>
     {% for checkpoint in checkpoints %}
     <tr>
-      <td style="background-color:#ececec; color: black">{{ checkpoint.name }}</td>
-      <td style="background-color:#ececec; color: black">{{ checkpoint.operator }}</td>
-      <td style="background-color:#ececec; color: black"><a href="{{ url_for('edit_checkpoint', race_id=race_id, checkpoint_id=checkpoint._id) }}">Edit</a></td>
+      <td>{{ checkpoint.name }}</td>
+      <td>{{ checkpoint.operator }}</td>
+      <td><a class="about" href="{{ url_for('edit_checkpoint', race_id=race_id, checkpoint_id=checkpoint._id) }}">Edit</a></td>
     </tr>
     {% endfor %}
+  </tbody>
   </table>
 
   {% if current_user.is_authenticated %}

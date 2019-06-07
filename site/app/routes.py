@@ -1,47 +1,44 @@
 from app import app, db, mqtt, photos
 from flask import render_template, redirect, url_for, flash, request
-from app.forms import RegisterRunnerForm, AddCheckpointForm, LoginForm, RegisterRaceForm, EditRaceForm, EditCheckpointForm
+from app.forms import RegisterRunnerForm, AddCheckpointForm, SignInForm, SignUpForm, RegisterRaceForm, EditRaceForm, EditCheckpointForm, RegisterForRace, SignUpForm
 from app.models import User, Event, Race, Runner, Checkpoint
 from flask_login import current_user, login_user, logout_user
 from bson.objectid import ObjectId
+from werkzeug.urls import url_parse
 
 races_col = db.races
+users_col = db.users
 events_col = db.events
 runners_col = db.runners
 checkpoints_col = db.checkpoints
 
+user = User(username = 'admin')
+user.set_password('admin')
+users_col.insert_one(user.__dict__)
+
+
 @app.route('/')
 def index():
-	return render_template('index.html')
+	list = [race for race in races_col.find()]
+	return render_template('index.html', races=list)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/sign_in', methods=['GET', 'POST'])
 def login():
+	title = "Login"
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
-	form = LoginForm()
+	form = SignInForm()
 	if form.validate_on_submit():
-		if form.username.data == 'admin' and form.password.data == 'admin':
-			user = User()
-			user.username = 'admin'
-			user.password = 'admin'
-			user.role = 'admin'
-			user.id = 1
-			login_user(user)
-			flash('{}  authorized! Welcome!'.format(user.username))
-			return redirect(url_for('index'))
-		elif form.username.data == 'organizer' and form.password.data == 'organizer':
-			user = User()
-			user.username = 'organizer'
-			user.password = 'organizer'
-			user.role = 'organizer'
-			user.id = 2
-			login_user(user)
-			flash('{} authorized! Welcome!'.format(user.username))
-			return redirect(url_for('index'))
-		else:
+		user = User(dict = users_col.find({"username":form.username.data})[0])
+		if user is None or not user.check_password(form.password.data):
 			flash('Invalid username or password')
-			return redirect(url_for('login'))
+			return redirect(url_for('index'))
+		login_user(user)
+		next_page = request.args.get('next')
+		if not next_page or url_parse(next_page).netloc != '':
+			next_page = url_for('index')
+		return redirect(next_page)
 	return render_template('login.html', form=form)
 
 
@@ -78,15 +75,24 @@ def clear_checkpoints(race_id):
 	races_col.update_one({"_id":ObjectId(race_id)}, {"$set":{"checkpoints":[]}})
 	return redirect(url_for('race_checkpoints', race_id=race_id))
 
+@app.route("/clear2/<race_id>")
+def clear_runners(race_id):
+	if current_user.is_anonymous:
+		return redirect(url_for('index'))
+	races_col.update_one({"_id":ObjectId(race_id)}, {"$set":{"runners":[]}})
+	return redirect(url_for('race_runners', race_id=race_id))
+
 @app.route("/results")
 def table():
+	title = "Results"
 	list = [event for event in events_col.find()]
 	list.reverse()
-	return render_template("table.html", events=list)
+	return render_template("table.html", events=list, title=title)
 
 
 @app.route('/register_runner', methods=['GET', 'POST'])
 def register_runner():
+	title = "Runner Registration"
 	if current_user.is_anonymous:
 		return redirect(url_for('index'))
 	form = RegisterRunnerForm()
@@ -95,15 +101,17 @@ def register_runner():
 		runners_col.insert_one(runner.__dict__)
 		flash('Runner {} {} is successfully registered.'.format(runner.first_name, runner.last_name))
 		return redirect(url_for('runners_table'))
-	return render_template('register_runner.html', form=form)
+	return render_template('register_runner.html', form=form, title=title)
 
 @app.route('/runners')
 def runners_table():
+	title = "Runners"
 	list = [runner for runner in runners_col.find()]
-	return render_template('runners_table.html', runners=list)
+	return render_template('runners_table.html', runners=list, title=title)
 
 @app.route('/register_race', methods=['GET', 'POST'])
 def register_race():
+	title = "Race Registration"
 	if current_user.is_anonymous:
 		return redirect(url_for('index'))
 	form = RegisterRaceForm()
@@ -111,16 +119,17 @@ def register_race():
 	if form.validate_on_submit():
 		filename = photos.save(form.logo.data)
 		url = photos.url(filename)
-		race = Race(form.name.data, url, form.admin.data, form.laps_number.data, form.distance.data, form.date_and_time_of_race.data, form.description.data, [])
+		race = Race(form.name.data, url, form.admin.data, form.laps_number.data, form.distance.data, form.date_and_time_of_race.data, form.description.data, [], [])
 		races_col.insert_one(race.__dict__)
 		flash('Race {} is successfully registered.'.format(race.name))
 		return redirect(url_for('races'))
-	return render_template('register_race.html', form=form)
+	return render_template('register_race.html', form=form, title=title)
 
 @app.route("/races")
 def races():
+	title = "Races"
 	list = [race for race in races_col.find()]
-	return render_template("races.html", races=list)
+	return render_template("races.html", races=list, title=title)
 
 @app.route("/race/<race_id>")
 def race(race_id):
@@ -141,6 +150,7 @@ def edit_race(race_id):
 		return redirect(url_for('index'))
 	race = races_col.find({"_id":ObjectId(race_id)})[0]
 	checkpoints = race['checkpoints']
+	runners = race['runners']
 	form = EditRaceForm()
 	form.laps_number.choices = [(i, i) for i in range(1,11)]
 	if form.validate_on_submit():
@@ -149,7 +159,7 @@ def edit_race(race_id):
 		else:
 			filename = photos.save(form.logo.data)
 			url = photos.url(filename)
-		race = Race(form.name.data, url, form.admin.data, form.laps_number.data, form.distance.data, form.date_and_time_of_race.data, form.description.data, checkpoints)
+		race = Race(form.name.data, url, form.admin.data, form.laps_number.data, form.distance.data, form.date_and_time_of_race.data, form.description.data, checkpoints, runners)
 		races_col.replace_one({"_id":ObjectId(race_id)}, race.__dict__)
 		flash('Race {} is successfully edited.'.format(race.name))
 		return redirect(url_for('race', race_id=race_id))
@@ -206,8 +216,39 @@ def delete_checkpoint(race_id, checkpoint_id):
 	checkpoints_col.delete_one(checkpoint)
 	return redirect(url_for('race_checkpoints', race_id=race_id))
 
+@app.route('/race/<race_id>/register_for_race', methods=['GET', 'POST'])
+def register_for_race(race_id):
+	form = RegisterForRace()
+	if form.validate_on_submit():
+		flash('Runner {} {}  is successfully registered.'.format(form.first_name.data, form.last_name.data))
+		runner = Runner(form.first_name.data, form.last_name.data, form.age.data)
+		races_col.update_one({"_id":ObjectId(race_id)}, {"$addToSet":{"runners":runner.__dict__}})
+		return redirect(url_for('index'))
+	return render_template('register_for_race.html', form=form)
 
-@app.route('/logout')
+@app.route('/sign_up', methods=['GET', 'POST'])
+def register():
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+	form = SignUpForm()
+	if form.validate_on_submit():
+		user = User(form.username.data, form.first_name.data, form.last_name.data, form.age.data, form.email.data)
+		user.set_password(form.password.data)
+		users_col.insert_one(user.__dict__)
+		flash('User {} is successfully registered.'.format(user.username))
+		return redirect(url_for('login'))
+
+	return render_template('register_on_site.html', form=form)
+
+@app.route("/race/<race_id>/runners")
+def race_runners(race_id):
+	if current_user.is_anonymous:
+		return redirect(url_for('index'))
+	race = races_col.find({"_id":ObjectId(race_id)})[0]
+	print(race['runners'])
+	return render_template('race_runners.html', race_name=race['name'], runners=race['runners'], race_id=race_id)
+
+@app.route('/sign_out')
 def logout():
 	logout_user()
 	return redirect(url_for('index'))

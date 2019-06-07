@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 align="center">Runners for {{ race_name }}</h1>
+<form action="{{ url_for('clear_runners', race_id=race_id) }}">
+  <button type="submit"><strong>Clear</strong></button>
+</form>
+<form action="{{ url_for('race', race_id=race_id) }}">
+  <button type="submit"><strong>Back to race</strong></button>
+</form>
+{% if runners[0] %}
+  <table id="table">
+    <thead class="table100-head">
+    <tr>
+      <th class="tbh">Name</th>
+      <th class="tbh">Age</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for runner in runners %}
+    <tr>
+      <td>{{ runner.first_name }} {{ runner.last_name }}</td>
+      <td>{{ runner.age }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+{% else %}
+  <h1>No runners registered!</h1>
+{% endif %}
+{% endblock content %}

@@ -1,40 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style type="text/css">
-  h1 {
-    font-size: 180%;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    font-weight: bolder;
-    color: #333366;
-  }
-</style>
-<h1 align="center">Runner Registration</h1>
-<form action="" method="post" novalidate align="center">
+<form class="form-login" action="" method="post" novalidate align="center">
   {{ form.hidden_tag() }}
   <p>
-    <br><strong>{{ form.first_name.label }}</strong><br>
-    {{ form.first_name(size=25) }}<br>
+    {{ form.first_name(size=25, placeholder="first name") }}<br>
     {% for error in form.first_name.errors %}
-    <span style="color: black;">[{{ error }}]</span>
+    <span class="span_reg">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
-    <br><strong>{{ form.last_name.label }}</strong><br>
-    {{ form.last_name(size=25) }}<br>
+    {{ form.last_name(size=25, placeholder="last name") }}<br>
     {% for error in form.last_name.errors %}
-    <span style="color: black;">[{{ error }}]</span>
+    <span class="span_reg">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
-    <br><strong>{{ form.id.label }}</strong><br>
-    {{ form.id(size=25) }}<br>
+    {{ form.id(size=25, placeholder="id") }}<br>
     {% for error in form.id.errors %}
-    <span style="color: black;">[{{ error }}]</span>
+    <span class="span_reg">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
-    <br><strong>{{ form.submit() }}</strong><br>
+    {{ form.submit(class='form-submit') }}
   </p>
 </form>
 {% endblock %}

@@ -2,45 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RTS-Site</title>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="style" style="background-color:#72c9f1">
-  <div>
-    <style type="text/css">
-      a {
-      font-size: 170%;
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
-      color: #333366;
-      border: 8px solid #ececec;
-      background-color: #ececec;
-      }
-    </style>
-    <table style="background-color:#ececec; size:80; color:black;" align="center">
-      <td>
-        <a href="{{ url_for('index') }}">Main</a>
-        <a href="{{ url_for('table') }}">Results</a>
-        <a href="{{ url_for('races') }}">Races</a>
-        <a href="{{ url_for('runners_table') }}">Runners</a>
+<body class="body-back">
+  <header>
+    <div class="Header">
+      <div class="dropdown">
+        <button onclick="dropFunction()" class="dropbtn Header-link btn-link" type="button">Menu</button>
+          <div id="dropdown-div" class="dropdown-content">
+            <a href="{{ url_for('index') }}">Main</a>
+            <a href="{{ url_for('table') }}">Results</a>
+            <a href="{{ url_for('races') }}">Races</a>
+          </div>
+      </div>
+      <div class="login">
         {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login')}}">Login</a>
+        <a class="a-link" href="{{ url_for('login')}}">Sign In</a>
         {% else %}
-        <a href="{{ url_for('register_runner') }}">Register Runner</a>
-        <a href="{{ url_for('register_race') }}">Register Race</a>
-        <a href="{{ url_for('logout')}}">Logout</a>
+        <a class="a-link" href="{{ url_for('register_runner') }}">Register Runner</a>
+        <a class="a-link" href="{{ url_for('register_race') }}">Register Race</a>
+        <a class="a-link" href="{{ url_for('logout')}}">Sign Out</a>
         {% endif %}
-      <td>
-    </table>
-  </div>
-  <hr>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>
-        {% for message in messages %}
-          <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-  {% block content %} {% endblock %}
+      </div>
+    </div>
+  </header>
+  {% block content %}{% endblock %}
 </body>
+<script>
+  function dropFunction() {
+    document.getElementById("dropdown-div").classList.toggle("show");
+  }
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
 </html>

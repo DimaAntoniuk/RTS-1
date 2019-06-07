@@ -6,7 +6,6 @@
 
  - #### Designed to automate and simplify process of tracking runners in marathons
  - #### Helps organizers to track all runners on checkpoints
- - #### Prevents cheating
  - #### Built using RFID antenna and multiple tags
 
 ## How It Works (locally)

@@ -1,92 +1,104 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 {% if form %}
-<h1>Edit {{ race_name }}</h1>
 <form action="{{ url_for('delete_race', race_id=race_id) }}">
-  <button type="submit"><strong>Delete</strong></button>
+  <button class="form-delete" type="submit">Delete Race</button>
 </form>
-<form action="" method="post" enctype="multipart/form-data" novalidate>
-    {{ form.hidden_tag() }}
-    <p>
-      <br><strong>{{ form.name.label }}</strong><br>
-      {{ form.name(size=25) }}<br>
-      {% for error in form.name.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.logo.label }}</strong><br>
-      {{ form.logo(size=25) }}<br>
-      {% for error in form.logo.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.admin.label }}</strong><br>
-      {{ form.admin }}<br>
-      {% for error in form.admin.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.laps_number.label }}</strong><br>
-      {{ form.laps_number }}<br>
-      {% for error in form.laps_number.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.distance.label }}</strong><br>
-      {{ form.distance(size=10) }}<br>
-      {% for error in form.distance.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.date_and_time_of_race.label }}</strong><br>
-      {{ form.date_and_time_of_race }}<br>
-      {% for error in form.date_and_time_of_race.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.description.label }}</strong><br>
-      {{ form.description(maxlength=300, cols=50, rows=6) }}<br>
-      {% for error in form.description.errors %}
-      <span style="color: black;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <br><strong>{{ form.submit() }}</strong><br>
-    </p>
+<form class="form-login" action="" method="post" enctype="multipart/form-data" novalidate>
+  {{ form.hidden_tag() }}
+
+  <p>
+    {{ form.name(size=25, placeholder="race name") }}<br>
+    {% for error in form.name.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.logo(size=25) }}<br>
+    {% for error in form.logo.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.admin }}<br>
+    {% for error in form.admin.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.laps_number }}<br>
+    {% for error in form.laps_number.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.distance(size=10, placeholder="distance of race (km)") }}<br>
+    {% for error in form.distance.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.date_and_time_of_race(placeholder="date (DD.MM.YYYY HH:MM)") }}<br>
+    {% for error in form.date_and_time_of_race.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.description(maxlength=300, cols=50, rows=6, placeholder="description") }}<br>
+    {% for error in form.description.errors %}
+    <span style="color: black;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    <br>{{ form.submit(class="form-edit") }}
+  </p>
 </form>
 {% else %}
-<h1>Race: {{ race.name }}</h1>
-{% if current_user.is_authenticated %}
-<form action="{{ url_for('edit_race', race_id=race._id) }}">
-  <button type="submit"><strong>Edit</strong></button>
-</form>
-<form action="{{ url_for('race_checkpoints', race_id=race._id) }}">
-  <button type="submit"><strong>Checkpoints</strong></button>
-</form>
+<br>
+<br>
+{% if current_user.is_authenticated and not current_user.is_runner %}
+<div>
+  <div class="clear-btn">
+    <form action="{{ url_for('edit_race', race_id=race._id) }}">
+      <button class="clear" type="submit">Edit</button>
+    </form>
+  </div>
+  <div class="checkpoints-btn">
+    <form action="{{ url_for('race_checkpoints', race_id=race._id) }}">
+      <button class="checkpoints-b" type="submit">Checkpoints</button>
+    </form>
+  </div>
+</div>
 {% endif %}
-<img src="{{ race.logo }}">
-<p>
-  Admin: {{ race.admin }}
-</p>
-<p>
-  Number of laps: {{ race.laps_number }}
-</p>
-<p>
-  Distance of the race: {{ race.distance }}
-</p>
-<p>
-  Date: {{ race.date_and_time_of_race.strftime("%d %B %Y %H:%M") }}
-</p>
-<p>
-  Description:<br>{{ race.description }}
-</p>
+<div class="form-race">
+  <h1 align="center">{{ race.name }}</h1>
+  <div class="img-race">
+    <img src="{{ race.logo }}", width="200", height="200">
+  </div>
+  <div class="info-race">
+  <p class="p-race">
+    Admin: {{ race.admin }}
+  </p>
+  <p class="p-race">
+    Number of laps: {{ race.laps_number }}
+  </p>
+  <p class="p-race">
+    Distance of the race: {{ race.distance }}
+  </p>
+  <p class="p-race">
+    Date: {{ race.date_and_time_of_race.strftime("%d %B %Y %H:%M") }}
+  </p>
+  <p class="p-race">
+    Description:<br>{{ race.description }}
+  </p>
+  <div align="center">
+    <form action="{{ url_for('race_runners', race_id=race._id) }}">
+      <button class="runners-b" type="submit">Runners</button>
+    </form>
+  </div>
+  </div>
+</div>
+
 {% endif %}
-{% endblock content %}
+{% endblock %}

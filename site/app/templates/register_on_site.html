@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-login" action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username(size = 30, placeholder="username") }}
+        {% for error in form.username.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.first_name(size = 30, placeholder="first name") }}
+        {% for error in form.first_name.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.last_name(size=30, placeholder="last name") }}
+        {% for error in form.last_name.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.age(size = 2, placeholder="age") }}
+        {% for error in form.age.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password(size=30, placeholder="password") }}
+        {% for error in form.password.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.repeat_password(size=30, placeholder="repeat password") }}
+        {% for error in form.repeat_password.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.email(size=30, placeholder="email") }}
+        {% for error in form.email.errors %}
+        <span class="span_reg"">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.submit(class="form-submit") }}<br>
+    </p>
+</form>
+{% endblock %}

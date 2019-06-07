@@ -2,6 +2,7 @@
 
 #designed by dante
 
+import math
 import datetime
 import socket
 import time
@@ -95,8 +96,9 @@ def on_publish(client,userdata,result):
 
 # Create a new socket to handle conversation with yr903
 
-tags = dict()
-runner_id = 1
+tags = {0:0}
+is_tag = set()
+runner_id = 0
 
 checkpointId = open("checkpointId.txt")
 CHECKPOINT_ID = checkpointId.readline(); #code to identify current checkpoint
@@ -116,22 +118,26 @@ client.loop_start()
 while 1:
     s.send(createSetAntennaPacket(1,1))
     s.send(createRealTimeInventoryPacket())
-    data = s.recv(8000)
-    if data.hex() in tags.keys():
-        data = "#"
-        for zero in range(5-int(math.log10(tags.get(data.hex())))):
-            data += "0"
-        data += str(tags.get(data.hex()))
-    else:
-        runner_id = runnner_id + 1
-        tags = tags + {data.hex(), runner_id}
-        data = "#"
-        for zero in range(5-int(math.log10(runner_id))):
-            data += "0"
-        data += runner_id
+    data_out = s.recv(8000)
+    data = data_out.hex()
+   # if data in is_tag:
+   #     data_out = "#"
+   #     for zero in range(5-int(math.log10(tags.get(data)))):
+   #         data_out += "0"
+   #     data_out += str(tags.get(data))
+   # else:
+   #     runner_id = runner_id + 1
+   #     tags = tags.update({data: runner_id})
+   #     data_out = "#"
+   #     for zero in range(5-int(math.log10(runner_id))):
+   #         data_out += "0"
+   #     data_out += str(runner_id)
+   #     is_tag.add(data)
+
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    screen_output = str(CHECKPOINT_ID) + " " + data + " " + str(timestamp)
+    screen_output = str(CHECKPOINT_ID) + " " + data_out.hex() + " " + str(timestamp)
     client.publish("myTopic", screen_output)
+    time.sleep(5)
 
 client.loop_stop()
 client.disconnect()

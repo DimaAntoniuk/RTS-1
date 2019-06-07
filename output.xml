@@ -1,17 +1,262 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.1.1 (Python 3.7.1 on win32)" generated="20190516 16:50:13.765" rpa="false">
+<robot generator="Robot 3.1.1 (Python 3.7.1 on win32)" generated="20190527 16:47:44.109" rpa="false">
 <suite id="s1" name="acceptanceTests" source="D:\projects\RTS\acceptanceTests.txt">
-<test id="s1-t1" name="Publish1">
+<test id="s1-t1" name="Login Admin">
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to the given ``url``.</doc>
+<arguments>
+<arg>localhost:8000/login</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20190527 16:47:45.073" level="INFO">Opening browser 'chrome' to base url 'localhost:8000/login'.</msg>
+<status status="PASS" starttime="20190527 16:47:45.072" endtime="20190527 16:48:04.810"></status>
+</kw>
+<kw name="Logging">
+<arguments>
+<arg>admin</arg>
+<arg>admin</arg>
+</arguments>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=username</arg>
+<arg>${USERNAME}</arg>
+</arguments>
+<msg timestamp="20190527 16:48:04.816" level="INFO">Typing text 'admin' into text field 'id=username'.</msg>
+<status status="PASS" starttime="20190527 16:48:04.815" endtime="20190527 16:48:05.190"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=password</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<msg timestamp="20190527 16:48:05.192" level="INFO">Typing text 'admin' into text field 'id=password'.</msg>
+<status status="PASS" starttime="20190527 16:48:05.191" endtime="20190527 16:48:05.446"></status>
+</kw>
+<kw name="Click Button" library="Selenium2Library">
+<doc>Clicks button identified by ``locator``.</doc>
+<arguments>
+<arg>id=submit</arg>
+</arguments>
+<msg timestamp="20190527 16:48:05.446" level="INFO">Clicking button 'id=submit'.</msg>
+<status status="PASS" starttime="20190527 16:48:05.446" endtime="20190527 16:48:05.667"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:48:04.813" endtime="20190527 16:48:05.668"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:47:45.067" endtime="20190527 16:48:05.671" critical="yes"></status>
+</test>
+<test id="s1-t2" name="Reg User">
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to the given ``url``.</doc>
+<arguments>
+<arg>localhost:8000/login</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20190527 16:48:05.690" level="INFO">Opening browser 'chrome' to base url 'localhost:8000/login'.</msg>
+<status status="PASS" starttime="20190527 16:48:05.690" endtime="20190527 16:48:11.668"></status>
+</kw>
+<kw name="Logging">
+<arguments>
+<arg>admin</arg>
+<arg>admin</arg>
+</arguments>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=username</arg>
+<arg>${USERNAME}</arg>
+</arguments>
+<msg timestamp="20190527 16:48:11.672" level="INFO">Typing text 'admin' into text field 'id=username'.</msg>
+<status status="PASS" starttime="20190527 16:48:11.671" endtime="20190527 16:48:11.909"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=password</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<msg timestamp="20190527 16:48:11.910" level="INFO">Typing text 'admin' into text field 'id=password'.</msg>
+<status status="PASS" starttime="20190527 16:48:11.909" endtime="20190527 16:48:12.111"></status>
+</kw>
+<kw name="Click Button" library="Selenium2Library">
+<doc>Clicks button identified by ``locator``.</doc>
+<arguments>
+<arg>id=submit</arg>
+</arguments>
+<msg timestamp="20190527 16:48:12.113" level="INFO">Clicking button 'id=submit'.</msg>
+<status status="PASS" starttime="20190527 16:48:12.111" endtime="20190527 16:48:43.351"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:48:11.670" endtime="20190527 16:48:43.352"></status>
+</kw>
+<kw name="Click Link" library="Selenium2Library">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>link:Register User</arg>
+</arguments>
+<msg timestamp="20190527 16:48:43.354" level="INFO">Clicking link 'link:Register User'.</msg>
+<kw name="Capture Page Screenshot" library="Selenium2Library">
+<doc>Takes screenshot of the current page and embeds it into log file.</doc>
+<msg timestamp="20190527 16:48:44.065" level="INFO" html="yes">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" starttime="20190527 16:48:43.414" endtime="20190527 16:48:44.065"></status>
+</kw>
+<msg timestamp="20190527 16:48:44.331" level="FAIL">Link with locator 'link:Register User' not found.</msg>
+<status status="FAIL" starttime="20190527 16:48:43.353" endtime="20190527 16:48:44.332"></status>
+</kw>
+<status status="FAIL" starttime="20190527 16:48:05.687" endtime="20190527 16:48:44.334" critical="yes">Link with locator 'link:Register User' not found.</status>
+</test>
+<test id="s1-t3" name="Reg Checkpoint">
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to the given ``url``.</doc>
+<arguments>
+<arg>localhost:8000/login</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20190527 16:48:44.342" level="INFO">Opening browser 'chrome' to base url 'localhost:8000/login'.</msg>
+<status status="PASS" starttime="20190527 16:48:44.341" endtime="20190527 16:49:00.525"></status>
+</kw>
+<kw name="Logging">
+<arguments>
+<arg>admin</arg>
+<arg>admin</arg>
+</arguments>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=username</arg>
+<arg>${USERNAME}</arg>
+</arguments>
+<msg timestamp="20190527 16:49:00.531" level="INFO">Typing text 'admin' into text field 'id=username'.</msg>
+<status status="PASS" starttime="20190527 16:49:00.529" endtime="20190527 16:49:00.749"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=password</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<msg timestamp="20190527 16:49:00.751" level="INFO">Typing text 'admin' into text field 'id=password'.</msg>
+<status status="PASS" starttime="20190527 16:49:00.750" endtime="20190527 16:49:00.954"></status>
+</kw>
+<kw name="Click Button" library="Selenium2Library">
+<doc>Clicks button identified by ``locator``.</doc>
+<arguments>
+<arg>id=submit</arg>
+</arguments>
+<msg timestamp="20190527 16:49:00.955" level="INFO">Clicking button 'id=submit'.</msg>
+<status status="PASS" starttime="20190527 16:49:00.954" endtime="20190527 16:49:01.202"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:49:00.528" endtime="20190527 16:49:01.203"></status>
+</kw>
+<kw name="Click Link" library="Selenium2Library">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>link:Register Checkpoint</arg>
+</arguments>
+<msg timestamp="20190527 16:49:01.206" level="INFO">Clicking link 'link:Register Checkpoint'.</msg>
+<status status="PASS" starttime="20190527 16:49:01.205" endtime="20190527 16:49:01.443"></status>
+</kw>
+<kw name="Checkpoint Registration">
+<arguments>
+<arg>new_checkpoint_name</arg>
+<arg>new_checkpoint_id</arg>
+</arguments>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=name</arg>
+<arg>${name}</arg>
+</arguments>
+<msg timestamp="20190527 16:49:01.446" level="INFO">Typing text 'new_checkpoint_name' into text field 'id=name'.</msg>
+<status status="PASS" starttime="20190527 16:49:01.446" endtime="20190527 16:49:01.710"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into text field identified by ``locator``.</doc>
+<arguments>
+<arg>id=id</arg>
+<arg>${id}</arg>
+</arguments>
+<msg timestamp="20190527 16:49:01.711" level="INFO">Typing text 'new_checkpoint_id' into text field 'id=id'.</msg>
+<status status="PASS" starttime="20190527 16:49:01.710" endtime="20190527 16:49:01.983"></status>
+</kw>
+<kw name="Click Button" library="Selenium2Library">
+<doc>Clicks button identified by ``locator``.</doc>
+<arguments>
+<arg>name=submit</arg>
+</arguments>
+<msg timestamp="20190527 16:49:01.985" level="INFO">Clicking button 'name=submit'.</msg>
+<status status="PASS" starttime="20190527 16:49:01.983" endtime="20190527 16:49:02.188"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:49:01.445" endtime="20190527 16:49:02.189"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:48:44.340" endtime="20190527 16:49:02.191" critical="yes"></status>
+</test>
+<test id="s1-t4" name="Publish">
 <kw name="Connect" library="MQTTLibrary">
 <doc>Connect to an MQTT broker. This is a pre-requisite step for publish
 and subscribe keywords.</doc>
 <arguments>
 <arg>127.0.0.1</arg>
 <arg>1883</arg>
-<arg>client-01</arg>
 </arguments>
-<msg timestamp="20190516 16:50:14.417" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
-<status status="PASS" starttime="20190516 16:50:14.414" endtime="20190516 16:50:14.431"></status>
+<msg timestamp="20190527 16:49:02.197" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20190527 16:49:02.196" endtime="20190527 16:49:02.227"></status>
+</kw>
+<kw name="Publish" library="MQTTLibrary">
+<doc>Publish a message to a topic with specified qos and retained flag.
+It is required that a connection has been established using `Connect`
+keyword before using this keyword.</doc>
+<arguments>
+<arg>topic=myTopic</arg>
+<arg>message=test</arg>
+<arg>qos=1</arg>
+</arguments>
+<msg timestamp="20190527 16:49:02.229" level="INFO">Publish topic: myTopic, message: test, qos: 1, retain: False</msg>
+<status status="PASS" starttime="20190527 16:49:02.228" endtime="20190527 16:49:02.230"></status>
+</kw>
+<kw name="Disconnect" library="MQTTLibrary" type="teardown">
+<doc>Disconnect from MQTT Broker.</doc>
+<status status="PASS" starttime="20190527 16:49:02.230" endtime="20190527 16:49:02.232"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:49:02.194" endtime="20190527 16:49:02.232" critical="yes"></status>
+</test>
+<test id="s1-t5" name="Subscribe">
+<kw name="Connect" library="MQTTLibrary">
+<doc>Connect to an MQTT broker. This is a pre-requisite step for publish
+and subscribe keywords.</doc>
+<arguments>
+<arg>127.0.0.1</arg>
+<arg>1883</arg>
+</arguments>
+<msg timestamp="20190527 16:49:02.243" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20190527 16:49:02.242" endtime="20190527 16:49:02.247"></status>
+</kw>
+<kw name="Subscribe" library="MQTTLibrary">
+<doc>Subscribe to a topic and return a list of message payloads received
+    within the specified time.</doc>
+<arguments>
+<arg>topic=myTopic</arg>
+<arg>qos=1</arg>
+<arg>timeout=5</arg>
+</arguments>
+<msg timestamp="20190527 16:49:02.249" level="INFO">Subscribing to topic: myTopic</msg>
+<status status="PASS" starttime="20190527 16:49:02.248" endtime="20190527 16:49:07.253"></status>
+</kw>
+<kw name="Disconnect" library="MQTTLibrary" type="teardown">
+<doc>Disconnect from MQTT Broker.</doc>
+<status status="PASS" starttime="20190527 16:49:07.255" endtime="20190527 16:49:07.257"></status>
+</kw>
+<status status="PASS" starttime="20190527 16:49:02.234" endtime="20190527 16:49:07.258" critical="yes"></status>
+</test>
+<test id="s1-t6" name="PublishWithPayload">
+<kw name="Connect" library="MQTTLibrary">
+<doc>Connect to an MQTT broker. This is a pre-requisite step for publish
+and subscribe keywords.</doc>
+<arguments>
+<arg>127.0.0.1</arg>
+</arguments>
+<msg timestamp="20190527 16:49:07.273" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20190527 16:49:07.273" endtime="20190527 16:49:07.280"></status>
 </kw>
 <kw name="Publish Single" library="MQTTLibrary">
 <doc>Publish a single message and disconnect. This keyword uses the
@@ -20,28 +265,26 @@ function of publish module.</doc>
 <arguments>
 <arg>topic=myTopic</arg>
 <arg>payload=test</arg>
-<arg>qos=1</arg>
+<arg>qos=0</arg>
 </arguments>
-<msg timestamp="20190516 16:50:14.433" level="INFO">Publishing to: localhost:1883, topic: myTopic, payload: test, qos: 1</msg>
-<status status="PASS" starttime="20190516 16:50:14.432" endtime="20190516 16:50:14.446"></status>
+<msg timestamp="20190527 16:49:07.285" level="INFO">Publishing to: localhost:1883, topic: myTopic, payload: test, qos: 0</msg>
+<status status="PASS" starttime="20190527 16:49:07.284" endtime="20190527 16:49:07.294"></status>
 </kw>
 <kw name="Disconnect" library="MQTTLibrary" type="teardown">
 <doc>Disconnect from MQTT Broker.</doc>
-<status status="PASS" starttime="20190516 16:50:14.447" endtime="20190516 16:50:14.449"></status>
+<status status="PASS" starttime="20190527 16:49:07.296" endtime="20190527 16:49:07.299"></status>
 </kw>
-<status status="PASS" starttime="20190516 16:50:14.410" endtime="20190516 16:50:14.449" critical="yes"></status>
+<status status="PASS" starttime="20190527 16:49:07.270" endtime="20190527 16:49:07.301" critical="yes"></status>
 </test>
-<test id="s1-t2" name="Subscribe1">
+<test id="s1-t7" name="SubscribeWithPayload">
 <kw name="Connect" library="MQTTLibrary">
 <doc>Connect to an MQTT broker. This is a pre-requisite step for publish
 and subscribe keywords.</doc>
 <arguments>
 <arg>127.0.0.1</arg>
-<arg>1883</arg>
-<arg>client-01</arg>
 </arguments>
-<msg timestamp="20190516 16:50:14.456" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
-<status status="PASS" starttime="20190516 16:50:14.455" endtime="20190516 16:50:14.461"></status>
+<msg timestamp="20190527 16:49:07.330" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20190527 16:49:07.329" endtime="20190527 16:49:07.336"></status>
 </kw>
 <kw name="Subscribe And Validate" library="MQTTLibrary">
 <doc>Subscribe to a topic and validate that the specified payload is
@@ -50,38 +293,38 @@ established using `Connect` keyword. The payload can be specified as
 a python regular expression. If the specified payload is not received
 within timeout, an AssertionError is thrown.</doc>
 <arguments>
-<arg>topic=myTopic</arg>
-<arg>qos=1</arg>
+<arg>topic=test/mqtt_test</arg>
+<arg>qos=0</arg>
 <arg>payload=test</arg>
 </arguments>
-<msg timestamp="20190516 16:50:14.462" level="INFO">Subscribing to topic: myTopic</msg>
-<msg timestamp="20190516 16:50:15.466" level="FAIL">The expected payload didn't arrive in the topic</msg>
-<status status="FAIL" starttime="20190516 16:50:14.462" endtime="20190516 16:50:15.467"></status>
+<msg timestamp="20190527 16:49:07.340" level="INFO">Subscribing to topic: test/mqtt_test</msg>
+<msg timestamp="20190527 16:49:08.344" level="FAIL">The expected payload didn't arrive in the topic</msg>
+<status status="FAIL" starttime="20190527 16:49:07.338" endtime="20190527 16:49:08.344"></status>
 </kw>
 <kw name="Disconnect" library="MQTTLibrary" type="teardown">
 <doc>Disconnect from MQTT Broker.</doc>
-<status status="PASS" starttime="20190516 16:50:15.471" endtime="20190516 16:50:15.474"></status>
+<status status="PASS" starttime="20190527 16:49:08.346" endtime="20190527 16:49:08.347"></status>
 </kw>
-<status status="FAIL" starttime="20190516 16:50:14.453" endtime="20190516 16:50:15.475" critical="yes">The expected payload didn't arrive in the topic</status>
+<status status="FAIL" starttime="20190527 16:49:07.308" endtime="20190527 16:49:08.348" critical="yes">The expected payload didn't arrive in the topic</status>
 </test>
 <kw name="Close All Browsers" library="Selenium2Library" type="teardown">
 <doc>Closes all open browsers and resets the browser cache.</doc>
-<status status="PASS" starttime="20190516 16:50:15.496" endtime="20190516 16:50:15.498"></status>
+<status status="PASS" starttime="20190527 16:49:08.357" endtime="20190527 16:49:15.348"></status>
 </kw>
-<status status="FAIL" starttime="20190516 16:50:13.769" endtime="20190516 16:50:15.498"></status>
+<status status="FAIL" starttime="20190527 16:47:44.150" endtime="20190527 16:49:15.349"></status>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="1">Critical Tests</stat>
-<stat pass="1" fail="1">All Tests</stat>
+<stat pass="5" fail="2">Critical Tests</stat>
+<stat pass="5" fail="2">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="1" fail="1" id="s1" name="acceptanceTests">acceptanceTests</stat>
+<stat pass="5" fail="2" id="s1" name="acceptanceTests">acceptanceTests</stat>
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20190516 16:50:13.752" level="WARN">Automatically parsing other than '*.robot' files is deprecated. Convert 'D:\projects\RTS\acceptanceTests.txt' to '*.robot' format or use '--extension' to explicitly configure which files to parse.</msg>
+<msg timestamp="20190527 16:47:43.880" level="WARN">Automatically parsing other than '*.robot' files is deprecated. Convert 'D:\projects\RTS\acceptanceTests.txt' to '*.robot' format or use '--extension' to explicitly configure which files to parse.</msg>
 </errors>
 </robot>

@@ -1,38 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 align="center">All Runners</h1>
+<title>Runners</title>
+<h1 align="center">Runners</h1>
 {% if runners[0] %}
-<style type="text/css">
-  th {
-    color: blue;
-    font-size: 13px;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    border: 1px solid black;
-    background-color: #ececec;
-    color: #333366;
-  }
-  td {
-    background-color: #ececec;
-    color: black;
-  }
-</style>
-
-<table border="1" cellspacing="1" cellpadding="10" align="center" id="line1">
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>ID</th>
-  </tr>
+<table id="line1">
+  <thead class="table100-head">
+    <tr>
+      <th class="tbh">First Name</th>
+      <th class="tbh">Last Name</th>
+      <th class="tbh">ID</th>
+    </tr>
+  </thead>
+  <tbody>
   {% for runner in runners %}
     <tr>
-      <td>{{ runner.first_name }}</td>
-      <td>{{ runner.last_name }}</td>
-      <td>{{ runner.id }}</td>
+      <td class="td_race">{{ runner.first_name }}</td>
+      <td class="td_race">{{ runner.last_name }}</td>
+      <td class="td_race">{{ runner.id }}</td>
     </tr>
   {% endfor %}
+  </tbody>
 </table>
 {% else %}
-<h1>No runners registered!</h1>
+<br>
+<h1 align="center">No runners registered!</h1>
 {% endif %}
 {% endblock content %}
