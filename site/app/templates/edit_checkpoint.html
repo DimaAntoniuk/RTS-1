@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit {{ checkpoint_name }}</h1>
+<form action="{{ url_for('delete_checkpoint', race_id=race_id, checkpoint_id=checkpoint_id) }}">
+  <button type="submit"><strong>Delete</strong></button>
+</form>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+      <br><strong>{{ form.name.label }}</strong><br>
+      {{ form.name(size=25) }}<br>
+      {% for error in form.name.errors %}
+      <span style="color: black;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      <br><strong>{{ form.operator.label }}</strong><br>
+      {{ form.operator(size=25) }}<br>
+      {% for error in form.operator.errors %}
+      <span style="color: black;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      <br><strong>{{ form.submit() }}</strong><br>
+    </p>
+</form>
+{% endblock content %}

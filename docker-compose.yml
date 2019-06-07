@@ -1,5 +1,14 @@
 version: '3'
 services:
+  socket:
+      image: tecnativa/docker-socker-proxy
+      privileged: true
+      ports:
+        - "4001"
+        - "2375:2375"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+
   script:
     build: ./script
     image: rts_script:v0.1

@@ -1,14 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style type="text/css">
-  h1 {
-    font-size: 180%;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    font-weight: bolder;
-    color: #333366;
-  }
-</style>
 <h1 align="center">Checkpoint Registration</h1>
 <form action="" method="post" novalidate align="center">
     {{ form.hidden_tag() }}
@@ -16,14 +8,14 @@
       <br><strong>{{ form.name.label }}</strong><br>
       {{ form.name(size=25) }}<br>
       {% for error in form.name.errors %}
-      <span style="color: black;">[{{ error }}]</span>
+      <span class="span_reg_check">[{{ error }}]</span>
       {% endfor %}
     </p>
     <p>
       <br><strong>{{ form.id.label }}</strong><br>
       {{ form.id(size=25) }}<br>
       {% for error in form.id.errors %}
-      <span style="color: black;">[{{ error }}]</span>
+      <span class="span_reg_check">[{{ error }}]</span>
       {% endfor %}
     </p>
     <p>

@@ -3,34 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>RTS-Site</title>
+  <link rel="stylesheet" type="text/css" href="static/style.css">
 </head>
-<body class="style" style="background-color:#72c9f1">
-  <div>
-    <style type="text/css">
-      a {
-      font-size: 170%;
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
-      color: #333366;
-      border: 8px solid #ececec;
-      background-color: #ececec;
-      }
-    </style>
-    <table style="background-color:#ececec; size:80; color:black;" align="center">
-      <td>
-        <a href="{{ url_for('index') }}">Main</a>
-        <a href="{{ url_for('table') }}">Results</a>
-        <a href="{{ url_for('races') }}">Races</a>
-        <a href="{{ url_for('runners_table') }}">Runners</a>
+<body class="body_back">
+  <header>
+    <div class="Header">
+      <div class="dropdown">
+        <button onclick="dropFunction()" class="dropbtn Header-link btn-link" type="button">
+          <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true">
+            <path fill-rule="evenodd" d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z"></path>
+          </svg>
+        </button>
+        <div id="dropdown-div" class="dropdown-content">
+          <a href="{{ url_for('table') }}">Results</a>
+          <a href="{{ url_for('races') }}">Races</a>
+          <a href="{{ url_for('runners_table') }}">Runners</a>
+        </div>
+      </div>
+      <div class="login">
         {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login')}}">Login</a>
+        <a class="a-link" href="{{ url_for('login')}}">Login</a>
+        <a class="a-link" href="{{ url_for('register_on_site')}}">Register on site</a>
         {% else %}
-        <a href="{{ url_for('register_checkpoint') }}">Register Checkpoint</a>
-        <a href="{{ url_for('register_race') }}">Register Race</a>
-        <a href="{{ url_for('logout')}}">Logout</a>
+        <a class="a-link" href="{{ url_for('register_runner') }}">Register Runner</a>
+        <a class="a-link" href="{{ url_for('register_race') }}">Register Race</a>
+        <a class="a-link" href="{{ url_for('logout')}}">Logout</a>
         {% endif %}
-      <td>
-    </table>
-  </div>
+      </div>
+    </div>
+  </header>
   <hr>
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -43,4 +44,21 @@
   {% endwith %}
   {% block content %} {% endblock %}
 </body>
+<script>
+  function dropFunction() {
+    document.getElementById("dropdown-div").classList.toggle("show");
+  }
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
 </html>

@@ -3,7 +3,7 @@
 {% block content %}
 <h1 align="center">All Events</h1>
 {% if current_user.is_authenticated %}
-<form action="/clear">
+<form action="{{ url_for('clear') }}">
   <button type="submit"><strong>Clear</strong></button>
 </form>
 {% endif %}
@@ -39,15 +39,15 @@
 <div class="split left">
 <table id="table" border="1" cellspacing="1" cellpadding="10" align="center">
   <tr>
-    <th style="background-color:#ececec; color: #333366;">Checkpoint Id</th>
-    <th style="background-color:#ececec; color: #333366;">Tag of Player</th>
-    <th style="background-color:#ececec; color: #333366;">Time</th>
+    <th class="th_race">Checkpoint Id</th>
+    <th class="th_race">Tag of Player</th>
+    <th class="th_race">Time</th>
   </tr>
   {% for event in events %}
   <tr>
-    <td style="background-color:#ececec; color: black">{{ event.checkpoint_id }}</td>
-    <td style="background-color:#ececec; color: black">{{ event.tag }}</td>
-    <td style="background-color:#ececec; color: black">{{ event.time }}</td>
+    <td class="td_race">{{ event.checkpoint_id }}</td>
+    <td class="td_race">{{ event.tag }}</td>
+    <td class="td_race">{{ event.time }}</td>
   </tr>
   {% endfor %}
 </table>
@@ -62,15 +62,11 @@
 </div>
 
 <script>
-
 		var index;
-		function getSelectedRow()
-		{
+		function getSelectedRow() {
 				var table = document.getElementById("table");
-				for(var i = 1; i < table.rows.length; i++)
-				{
-						table.rows[i].onclick = function()
-						{
+				for(var i = 1; i < table.rows.length; i++) {
+						table.rows[i].onclick = function() {
 								if(typeof index !== "undefined"){
 										table.rows[index].classList.toggle("selected");
 								}
@@ -81,19 +77,16 @@
 		}
 		getSelectedRow();
 
-		function move(direction)
-		{
+		function move(direction) {
 				var rows = document.getElementById("table").rows,
 						parent = rows[index].parentNode;
-					if(direction === "up")
-					{
+					if(direction === "up") {
 							if(index > 1){
 								parent.insertBefore(rows[index],rows[index - 1]);
 								index--;
 						}
 					}
-					if(direction === "down")
-					{
+					if(direction === "down") {
 							if(index < rows.length-1){
 								parent.insertBefore(rows[index + 1],rows[index]);
 								index++;
@@ -101,19 +94,16 @@
 					}
 		}
 
-		function move_end(direction)
-		{
+		function move_end(direction) {
 				var rows = document.getElementById("table").rows,
 						parent = rows[index].parentNode;
-					if(direction === "up")
-					{
+					if(direction === "up") {
 							while(index > 1){
 								parent.insertBefore(rows[index],rows[index - 1]);
 								index--;
 						}
 					}
-					if(direction === "down")
-					{
+					if(direction === "down") {
 							while(index < rows.length-1){
 								parent.insertBefore(rows[index + 1],rows[index]);
 								index++;

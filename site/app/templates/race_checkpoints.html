@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 align="center">Checkpoints for {{ race_name }}</h1>
+<form action="{{ url_for('register_checkpoint', race_id=race_id) }}">
+  <button type="submit"><strong>Add</strong></button>
+</form>
+<form action="{{ url_for('clear_checkpoints', race_id=race_id) }}">
+  <button type="submit"><strong>Clear</strong></button>
+</form>
+<form action="{{ url_for('race', race_id=race_id) }}">
+  <button type="submit"><strong>Back to race</strong></button>
+</form>
+{% if checkpoints[0] %}
+  <style type="text/css">
+  	th {
+  	color: blue;
+  	font-size: 13px;
+  	font-family:  "Trebuchet MS", Helvetica, sans-serif;
+    border: 1px solid black;
+    background-color: white;
+  	}
+    .selected{
+    	background-color:green;
+    	color #fff;
+    	font-weight: bold
+  	}
+  </style>
+  <table id="table" border="1" cellspacing="1" cellpadding="10" align="center">
+    <tr>
+      <th style="background-color:#ececec; color: #333366;">Name</th>
+      <th style="background-color:#ececec; color: #333366;">Operator</th>
+      <th style="background-color:#ececec; color: #333366;">Edit</th>
+    </tr>
+    {% for checkpoint in checkpoints %}
+    <tr>
+      <td style="background-color:#ececec; color: black">{{ checkpoint.name }}</td>
+      <td style="background-color:#ececec; color: black">{{ checkpoint.operator }}</td>
+      <td style="background-color:#ececec; color: black"><a href="{{ url_for('edit_checkpoint', race_id=race_id, checkpoint_id=checkpoint._id) }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% if current_user.is_authenticated %}
+  <button onclick="move('up');">&ShortUpArrow;</button>
+  <button onclick="move('down');">&ShortDownArrow;</button>
+  <button onclick="move_end('up');">&ShortUpArrow;</button>
+  <button onclick="move_end('down');">&ShortDownArrow;</button>
+
+  <script>
+  		var index;
+  		function getSelectedRow()
+  		{
+  				var table = document.getElementById("table");
+  				for(var i = 1; i < table.rows.length; i++)
+  				{
+  						table.rows[i].onclick = function()
+  						{
+  								if(typeof index !== "undefined"){
+  										table.rows[index].classList.toggle("selected");
+  								}
+  								index = this.rowIndex;
+  								this.classList.toggle("selected");
+  						};
+  				}
+  		}
+  		getSelectedRow();
+
+  		function move(direction)
+  		{
+  				var rows = document.getElementById("table").rows,
+  						parent = rows[index].parentNode;
+  					if(direction === "up")
+  					{
+  							if(index > 1){
+  								parent.insertBefore(rows[index],rows[index - 1]);
+  								index--;
+  						}
+  					}
+  					if(direction === "down")
+  					{
+  							if(index < rows.length-1){
+  								parent.insertBefore(rows[index + 1],rows[index]);
+  								index++;
+  						}
+  					}
+  		}
+
+  		function move_end(direction)
+  		{
+  				var rows = document.getElementById("table").rows,
+  						parent = rows[index].parentNode;
+  					if(direction === "up")
+  					{
+  							while(index > 1){
+  								parent.insertBefore(rows[index],rows[index - 1]);
+  								index--;
+  						}
+  					}
+  					if(direction === "down")
+  					{
+  							while(index < rows.length-1){
+  								parent.insertBefore(rows[index + 1],rows[index]);
+  								index++;
+  						}
+  					}
+  		}
+  </script>
+  {% endif %}
+{% else %}
+  <h1>No checkpoints added!</h1>
+{% endif %}
+{% endblock content %}

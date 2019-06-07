@@ -9,7 +9,8 @@ import time
 from functools import reduce
 import paho.mqtt.client as mqtt
 
-HOST = '192.168.0.178'  # The NFC reader IP address
+HOST = "socket"
+#HOST = '192.168.0.178'  # The NFC reader IP address
 READER_PORT = 4001  # Port where reader listens
 MQTT_PORT = 1883  #Port where mosquitto listens
 brocker = "mqtt"
@@ -107,7 +108,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.settimeout(5)
 s.connect((HOST, READER_PORT))
 
-client = mqtt.Client("client-02");
+client = mqtt.Client("client-01");
 client.on_connect = on_connect
 client.on_massage = on_massage
 client.on_publish = on_publish
@@ -120,22 +121,22 @@ while 1:
     s.send(createRealTimeInventoryPacket())
     data_out = s.recv(8000)
     data = data_out.hex()
-    if data in is_tag:
-        data_out = "#"
-        for zero in range(5-int(math.log10(tags.get(data)))):
-            data_out += "0"
-        data_out += str(tags.get(data))
-    else:
-        runner_id = runner_id + 1
-        tags = tags.update({data: runner_id})
-        data_out = "#"
-        for zero in range(5-int(math.log10(runner_id))):
-            data_out += "0"
-        data_out += str(runner_id)
-        is_tag.add(data)
+   # if data in is_tag:
+   #     data_out = "#"
+   #     for zero in range(5-int(math.log10(tags.get(data)))):
+   #         data_out += "0"
+   #     data_out += str(tags.get(data))
+   # else:
+   #     runner_id = runner_id + 1
+   #     tags = tags.update({data: runner_id})
+   #     data_out = "#"
+   #     for zero in range(5-int(math.log10(runner_id))):
+   #         data_out += "0"
+   #     data_out += str(runner_id)
+   #     is_tag.add(data)
 
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    screen_output = str(CHECKPOINT_ID) + " " + data_out + " " + str(timestamp)
+    screen_output = str(CHECKPOINT_ID) + " " + data_out.hex() + " " + str(timestamp)
     client.publish("myTopic", screen_output)
     time.sleep(5)
 

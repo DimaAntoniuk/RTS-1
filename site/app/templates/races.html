@@ -3,28 +3,17 @@
 {% block content %}
 <h1 align="center">All Races</h1>
 {% if races[0] %}
-  <style type="text/css">
-  	th {
-  	color: blue;
-  	font-size: 13px;
-  	font-family:  "Trebuchet MS", Helvetica, sans-serif;
-    border: 1px solid black;
-    background-color: white;
-  	}
-  </style>
   <table border="1" cellspacing="1" cellpadding="10" align="center">
     <tr>
-      <th style="background-color:#ececec; color: #333366;">Name</th>
-      <th style="background-color:#ececec; color: #333366;">Date</th>
-      <th style="background-color:#ececec; color: #333366;">About</th>
-      <th style="background-color:#ececec; color: #333366;"></th>
+      <th class="th_race">Name</th>
+      <th class="th_race">Date</th>
+      <th class="th_race">About</th>
     </tr>
     {% for race in races %}
     <tr>
-      <td style="background-color:#ececec; color: black">{{ race.name }}</td>
-      <td style="background-color:#ececec; color: black">{{ race.date_and_time_of_race.strftime("%d %B %Y %H:%M") }}</td>
-      <td style="background-color:#ececec; color: black"><a href="{{ url_for('race', race_id=race._id) }}">About</a></td>
-      <td style="background-color:#ececec; color: black"><form action="{{ url_for('register_runner') }}"><input type="submit" value="APPLY"></form></td>
+      <td class="td_race">{{ race.name }}</td>
+      <td class="td_race">{{ race.date_and_time_of_race.strftime("%d %B %Y %H:%M") }}</td>
+      <td class="td_race"><a href="{{ url_for('race', race_id=race._id) }}">About</a></td>
     </tr>
     {% endfor %}
   </table>
